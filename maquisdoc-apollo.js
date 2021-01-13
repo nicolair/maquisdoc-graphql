@@ -44,28 +44,21 @@ type Query {
     MATCH (s:Evenement {typeEvt:"semaine de colle"})
     RETURN s
   """),
-  semaineParNom(nomS: String!) : Evenement @cypher(statement: """
-    MATCH (s:Evenement 
-        {
-          typeEvt:"semaine de colle", 
-          nom : $nomS
-        }
-    )
-    RETURN s
-  """),
 }
 `
 
 const schema = makeAugmentedSchema({typeDefs})
 
-//const neo4j_url = process.env.NEO4J_URL
-const neo4j_url = "bolt://188.226.151.10:7687"
+const neo4j_url = "bolt://localhost:7687"
 const neo4j_pw = process.env.NEO4J_PASSWORD
 const neo4j_username = process.env.NEO4J_USERNAME
+//const neo4j_pw = ""
+//const neo4j_username = "neo4j"
+
 const driver = neo4j.driver(
     neo4j_url,
     neo4j.auth.basic(neo4j_username,neo4j_pw)
-);
+    );
 
 const server = new ApolloServer({schema, context: {driver}})
 

@@ -1,17 +1,29 @@
 {
   "name": "maquisdoc-graphql",
   "version": "1.0.0",
-  "description": "GraphQL apollo server",
+  "description": "Serveur GraphQL apollo présentant une base de données en graphe neo4j.",
   "main": "index.js",
+  "dependencies": {
+    "apollo": "^2.32.0",
+    "apollo-server": "^2.19.1",
+    "core-js": "^3.8.2",
+    "graphql": "^15.4.0",
+    "neo4j-driver": "^4.2.1",
+    "neo4j-graphql-js": "^2.18.0"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolair/maquisdoc-graphql.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "apollo-server": "^2.19.0",
-    "neo4j-driver": "^4.2.1",
-    "neo4j-graphql-js": "^2.17.1"
-  }
+  "bugs": {
+    "url": "https://github.com/nicolair/maquisdoc-graphql/issues"
+  },
+  "homepage": "https://github.com/nicolair/maquisdoc-graphql#readme"
 }
