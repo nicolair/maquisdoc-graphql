@@ -6,6 +6,7 @@ const typeDefs = /* GraphQL */ `
 type Document {
     titre: String
     typeDoc: String
+    description: String
     url: String
     urlEnon: String
     urlCorr: String
@@ -36,13 +37,23 @@ type Evenement {
 }
 
 type Query {
-  alldocuments : [Document] @cypher(statement: """
+  coursdocuments : [Document] @cypher(statement: """
     MATCH (d:Document {typeDoc:"cours"})
+    RETURN d
+  """),
+  problemedocuments : [Document] @cypher(statement: """
+    MATCH (d:Document {typeDoc:"problème"})
     RETURN d
   """),
   semaines : [Evenement] @cypher(statement: """
     MATCH (s:Evenement {typeEvt:"semaine de colle"})
     RETURN s
+  """),
+  searchpbs (mot:String): [Document] @cypher(statement: """
+    CALL db.index.fulltext.queryNodes("TitresEtDescriptions", $mot)
+      YIELD node, score
+    WHERE node.typeDoc = "problème"
+    RETURN  node
   """),
 }
 `

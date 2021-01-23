@@ -4,14 +4,15 @@
   "description": "Serveur GraphQL apollo présentant une base de données en graphe neo4j.",
   "main": "index.js",
   "dependencies": {
-    "apollo": "^2.32.0",
-    "apollo-server": "^2.19.1",
+    "apollo": "^2.32.1",
+    "apollo-server": "^2.19.2",
     "core-js": "^3.8.2",
-    "graphql": "^15.4.0",
     "neo4j-driver": "^4.2.1",
     "neo4j-graphql-js": "^2.18.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "graphql": "^15.4.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
