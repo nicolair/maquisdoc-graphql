@@ -12,16 +12,16 @@ type Document {
     urlCorr: String
     urlSrcEnon: String
     urlSrcCorr: String
-    concepts: [Concept] @relation(name: "DOCUMENTE", direction: "OUT")
-    evenements: [Evenement] @relation(name: "UTILISE", direction: "IN")
+    concepts: [Concept] @relation(name: "DOCUMENTE", direction: OUT)
+    evenements: [Evenement] @relation(name: "UTILISE", direction: IN)
 }
 
 type Concept {
     litteral: String
     discipline : String
     description: String
-    documents: [Document] @relation(name: "DOCUMENTE", direction: "IN")
-    evenements: [Evenement] @relation(name: "EVALUE", direction: "IN")
+    documents: [Document] @relation(name: "DOCUMENTE", direction: IN)
+    evenements: [Evenement] @relation(name: "EVALUE", direction: IN)
     listexos: [Document] @cypher(statement: """
       MATCH (f {typeDoc: "liste exercices"})-[:EVALUE]->(this)
       RETURN f
@@ -31,9 +31,9 @@ type Concept {
 type Evenement {
     nom: String 
     typeEvt: String
-    concepts: [Concept] @relation(name: "EVALUE", direction: "OUT")
-    documents: [Document] @relation(name: "UTILISE", direction: "OUT")
-    sousevenements: [Evenement] @relation(name: "CONTIENT", direction: "OUT")
+    concepts: [Concept] @relation(name: "EVALUE", direction: OUT)
+    documents: [Document] @relation(name: "UTILISE", direction: OUT)
+    sousevenements: [Evenement] @relation(name: "CONTIENT", direction: OUT)
 }
 
 type Query {
