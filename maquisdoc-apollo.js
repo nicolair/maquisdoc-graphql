@@ -60,11 +60,14 @@ type Query {
 
 const schema = makeAugmentedSchema({typeDefs})
 
-const neo4j_url = "bolt://localhost:7687"
+const neo4j_url = process.env.NEO4J_URL || "bolt://localhost:7687"
+
 const neo4j_pw = process.env.NEO4J_PASSWORD
 const neo4j_username = process.env.NEO4J_USERNAME
 //const neo4j_pw = ""
 //const neo4j_username = "neo4j"
+
+console.log(neo4j_url,neo4j_pw,neo4j_username)
 
 const driver = neo4j.driver(
     neo4j_url,
