@@ -8,6 +8,7 @@ type Document {
     typeDoc: String
     description: String
     url: String
+    urlSrc: String
     urlEnon: String
     urlCorr: String
     urlSrcEnon: String
@@ -53,6 +54,12 @@ type Query {
     CALL db.index.fulltext.queryNodes("TitresEtDescriptions", $mot)
       YIELD node, score
     WHERE node.typeDoc = "problème"
+    RETURN  node
+  """),
+  searchcours (mot:String): [Document] @cypher(statement: """
+    CALL db.index.fulltext.queryNodes("TitresEtDescriptions", $mot)
+      YIELD node, score
+    WHERE node.typeDoc = "cours"
     RETURN  node
   """),
 }
