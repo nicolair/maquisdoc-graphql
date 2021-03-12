@@ -4,6 +4,7 @@ const neo4j = require("neo4j-driver")
 
 const typeDefs = /* GraphQL */ `
 type Document {
+    _id: ID!
     titre: String
     typeDoc: String
     description: String
@@ -17,15 +18,57 @@ type Document {
     evenements: [Evenement] @relation(name: "UTILISE", direction: IN)
 }
 
+type DocumentVoisin {
+    typeRel: String
+    out: Boolean
+    docType: String
+    docTitre: String
+    docDescription: String
+    docUrl: String
+    docId: ID!
+}
+
+type ConceptVoisin{
+    typeRel: String
+    out: Boolean
+    conceptLitteral: String
+    conceptDescription: String
+    conceptId: ID!
+}
+
 type Concept {
     litteral: String
     discipline : String
     description: String
+    _id: ID!
     documents: [Document] @relation(name: "DOCUMENTE", direction: IN)
-    evenements: [Evenement] @relation(name: "EVALUE", direction: IN)
     listexos: [Document] @cypher(statement: """
       MATCH (f {typeDoc: "liste exercices"})-[:EVALUE]->(this)
       RETURN f
+    """)
+    documentsvoisins: [DocumentVoisin] @cypher(statement: """ 
+      MATCH (this:Concept)-[r]-(d:Document)
+      WITH {
+           typeRel: type(r) ,
+           out: id(endNode(r))=id(d) ,
+           docType : d.typeDoc ,
+           docTitre: d.titre ,
+           docDescription: d.description,
+           docUrl: d.url,
+           docId: id(d)
+      } AS DocumentVoisin
+      RETURN DocumentVoisin
+    """)
+    conceptsvoisins: [ConceptVoisin] @cypher(statement: """ 
+      MATCH (this:Concept)-[r]-(c:Concept)
+      WITH {
+           typeRel: type(r) ,
+           out: id(endNode(r))=id(c) ,
+           conceptLitteral : c.litteral ,
+           conceptDescription: c.description,
+           conceptId: id(c)
+      } AS ConceptVoisin
+      RETURN ConceptVoisin
     """)
 }
 
@@ -62,6 +105,11 @@ type Query {
     WHERE node.typeDoc = "cours"
     RETURN  node
   """),
+  searchconcepts (mot:String): [Concept] @cypher(statement: """
+    CALL db.index.fulltext.queryNodes("LittérauxEtDescriptions", $mot)
+      YIELD node
+    RETURN  node
+  """)
 }
 `
 
