@@ -15,6 +15,7 @@ type Document {
     urlSrcEnon: String
     urlSrcCorr: String
     concepts: [Concept] @relation(name: "DOCUMENTE", direction: OUT)
+    conceptsEVAL: [Concept] @relation(name: "EVALUE", direction: OUT)
     evenements: [Evenement] @relation(name: "UTILISE", direction: IN)
 }
 
@@ -28,7 +29,7 @@ type DocumentVoisin {
     docId: ID!
 }
 
-type ConceptVoisin{
+type ConceptVoisin {
     typeRel: String
     out: Boolean
     conceptLitteral: String
@@ -81,6 +82,10 @@ type Evenement {
 }
 
 type Query {
+  exercicedocuments : [Document] @cypher(statement: """
+    MATCH (d:Document {typeDoc:"exercice"})
+    RETURN d
+  """),
   coursdocuments : [Document] @cypher(statement: """
     MATCH (d:Document {typeDoc:"cours"})
     RETURN d
