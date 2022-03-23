@@ -82,6 +82,10 @@ type Evenement {
 }
 
 type Query {
+  feuilleexercicesdocuments : [Document] @cypher(statement: """
+    MATCH (d:Document {typeDoc:"liste exercices"})
+    RETURN d
+  """),
   exercicedocuments : [Document] @cypher(statement: """
     MATCH (d:Document {typeDoc:"exercice"})
     RETURN d
