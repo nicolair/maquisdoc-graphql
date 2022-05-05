@@ -17,6 +17,7 @@ type Document {
     concepts: [Concept] @relation(name: "DOCUMENTE", direction: OUT)
     conceptsEVAL: [Concept] @relation(name: "EVALUE", direction: OUT)
     evenements: [Evenement] @relation(name: "UTILISE", direction: IN)
+    contenants: [Document] @relation(name: "CONTIENT", direction: IN)
 }
 
 type DocumentVoisin {
